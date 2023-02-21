@@ -5,24 +5,28 @@ import TaskForm from "./TaskForm";
 import TaskHookForm from "./TaskHookForm";
 import PeopleForm from "./PeopleForm";
 import { initialTasks, initialTeam } from "./data";
-
+import { toast } from "react-toastify";
 
 function App() {
   const [tasks, setTasks] = useState(initialTasks);
   const [team, setTeam] = useState(initialTeam);
 
   function handleTaskSubmit(yeniTask) {
-    setTasks([yeniTask, ...tasks])
+    setTasks([yeniTask, ...tasks]);
   }
 
   function handlePeopleSubmit(yeniKisi) {
-    setTeam([...team, yeniKisi])
+    setTeam([...team, yeniKisi]);
   }
 
   function handleComplete(id) {
-    console.log("tamamlama fonksiyonunu buraya yazın")
-  }
+    const Ctask = [...tasks];
+    const seciliTask = Ctask.filter((task) => task.id === id)[0];
+    seciliTask.status = "yapıldı";
+    setTasks(Ctask);
 
+    toast.success(`"${seciliTask.title}" tamamlandı!`);
+  }
   return (
     <div className="app">
       <div className="formColumn">
@@ -59,7 +63,6 @@ function App() {
           </div>
         </div>
       </div>
-
     </div>
   );
 }
